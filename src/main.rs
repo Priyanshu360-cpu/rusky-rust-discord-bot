@@ -12,7 +12,6 @@ use serenity::{
     prelude::*,
 };
 use tracing::{error, info};
-use serenity::model::gateway::Activity;
 
 
 pub struct ShardManagerContainer;
