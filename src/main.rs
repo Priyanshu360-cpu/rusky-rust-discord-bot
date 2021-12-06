@@ -12,6 +12,8 @@ use serenity::{
     prelude::*,
 };
 use tracing::{error, info};
+use serenity::model::gateway::Activity;
+
 
 pub struct ShardManagerContainer;
 
@@ -23,13 +25,20 @@ struct Handler;
 
 #[async_trait]
 impl EventHandler for Handler {
-    async fn ready(&self, _: Context, ready: Ready) {
+    async fn ready(&self,ctx: Context, ready: Ready) {
         info!("Connected as {}", ready.user.name);
+        use serenity::model::gateway::Activity;
+        use serenity::model::user::OnlineStatus;
+
+        let activity = Activity::playing("Priyanshu Learning rust");
+        let status = OnlineStatus::DoNotDisturb;
+        ctx.set_presence(Some(activity), status).await;
     }
 
     async fn resume(&self, _: Context, _: ResumedEvent) {
         info!("Resumed");
     }
+
 }
 
 #[group]
@@ -65,7 +74,9 @@ async fn main() {
         .framework(framework)
         .event_handler(Handler)
         .await
-        .expect("Err creating client");
+        .expect("Err creating client"); 
+        client.start().await.expect("err");
+
 
     {
         let mut data = client.data.write().await;
