@@ -2,7 +2,7 @@ mod commands;
 
 use std::{collections::HashSet, env, sync::Arc};
 
-use commands::{math::*, meta::*, owner::*};
+use commands::{math::*, meta::*, owner::*,reply::*};
 use serenity::{
     async_trait,
     client::bridge::gateway::ShardManager,
@@ -30,7 +30,7 @@ impl EventHandler for Handler {
         use serenity::model::user::OnlineStatus;
 
         let activity = Activity::playing("Priyanshu Learning rust");
-        let status = OnlineStatus::DoNotDisturb;
+        let status = OnlineStatus::Idle;
         ctx.set_presence(Some(activity), status).await;
     }
 
@@ -41,7 +41,7 @@ impl EventHandler for Handler {
 }
 
 #[group]
-#[commands(multiply, ping, quit)]
+#[commands(multiply, ping, quit, reply)]
 struct General;
 
 #[tokio::main]
