@@ -29,7 +29,7 @@ impl EventHandler for Handler {
         use serenity::model::gateway::Activity;
         use serenity::model::user::OnlineStatus;
 
-        let activity = Activity::playing("Priyanshu Learning rust");
+        let activity = Activity::playing("Rust Coz why not");
         let status = OnlineStatus::Idle;
         ctx.set_presence(Some(activity), status).await;
     }
