@@ -2,7 +2,7 @@ mod commands;
 
 use std::{collections::HashSet, env, sync::Arc};
 
-use commands::{math::*, meta::*, owner::*,reply::*,display::*,table::*,status::*};
+use commands::{math::*, meta::*, owner::*,reply::*,display::*,table::*,status::*,chatbot::*};
 use serenity::{
     async_trait,
     client::bridge::gateway::ShardManager,
@@ -43,7 +43,7 @@ impl EventHandler for Handler {
 }
 
 #[group]
-#[commands(math, ping, quit, reply, display, table,status)]
+#[commands(math, ping, quit, reply, display, table,status,chatbot)]
 struct General;
 
 #[tokio::main]
