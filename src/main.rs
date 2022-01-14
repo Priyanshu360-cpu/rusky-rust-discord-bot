@@ -85,6 +85,7 @@ async fn main() {
     let bot = Bot {
         database,
     };
+    
     let mut client = Client::builder(&token)
         .framework(framework)
         .event_handler(Handler)
