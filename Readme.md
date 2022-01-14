@@ -8,4 +8,5 @@ Cargo run
 
 **Bot Made with serenity**
 
+**Bot Made with ❤️ by Priyanshu**
 
