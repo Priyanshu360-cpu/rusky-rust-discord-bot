@@ -41,7 +41,7 @@ impl EventHandler for Handler {
 }
 
 #[group]
-#[commands(multiply, ping, quit, reply, display, table)]
+#[commands(math, ping, quit, reply, display, table)]
 struct General;
 
 #[tokio::main]
