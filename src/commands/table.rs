@@ -9,7 +9,6 @@ pub async fn table(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
    
     for x in 1..two+1 {
         let display = format!("{}X{}={}", one,x,one*x);
-         
         msg.channel_id.say(&ctx.http, display).await?;
     }    
     Ok(())
