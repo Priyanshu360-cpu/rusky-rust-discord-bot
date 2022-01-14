@@ -4,6 +4,11 @@ use serenity::prelude::*;
 
 #[command] 
 pub async fn reply(ctx: &Context, msg: &Message) -> CommandResult { 
-    msg.reply(ctx, &msg.content).await?;
+    if let Some(act) = msg.content.strip_prefix("~reply"){
+        let act=act.trim();
+    msg.reply(ctx, act).await?;
+    }else{
+        msg.reply(ctx,format!("Some error occured")).await?;
+    }
     Ok(())
 }
