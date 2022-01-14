@@ -2,7 +2,7 @@ mod commands;
 
 use std::{collections::HashSet, env, sync::Arc};
 
-use commands::{math::*, meta::*, owner::*,reply::*,display::*,table::*};
+use commands::{math::*, meta::*, owner::*,reply::*,display::*,table::*,status::*};
 use serenity::{
     async_trait,
     client::bridge::gateway::ShardManager,
@@ -43,7 +43,7 @@ impl EventHandler for Handler {
 }
 
 #[group]
-#[commands(math, ping, quit, reply, display, table)]
+#[commands(math, ping, quit, reply, display, table,status)]
 struct General;
 
 #[tokio::main]
@@ -79,7 +79,7 @@ async fn main() {
         )
         .await
         .expect("Couldn't connect to database");
-
+        sqlx::migrate!("./migrations").run(&database).await.expect("Couldn't run database migrations");
   
 
     let bot = Bot {
