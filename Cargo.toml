@@ -9,6 +9,7 @@ edition = "2021"
 dotenv = "0.15"
 tracing = "0.1.23"
 tracing-subscriber = "0.2"
+sqlx = { version = "0.5", features = [ "runtime-tokio-native-tls" , "postgres" , "sqlite" ] }
 
 [dependencies.tokio]
 version = "1.0"

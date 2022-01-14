@@ -12,8 +12,10 @@ use serenity::{
     prelude::*,
 };
 use tracing::{error, info};
-
-
+use sqlx::postgres::PgPoolOptions;
+struct Bot {
+    database: sqlx::SqlitePool,
+}
 pub struct ShardManagerContainer;
 
 impl TypeMapKey for ShardManagerContainer {
@@ -54,7 +56,7 @@ async fn main() {
     let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
 
     let http = Http::new_with_token(&token);
-
+   
    
     let (owners, _bot_id) = match http.get_current_application_info().await {
         Ok(info) => {
@@ -68,7 +70,21 @@ async fn main() {
 
     let framework =
         StandardFramework::new().configure(|c| c.owners(owners).prefix("~")).group(&GENERAL_GROUP);
+        let database = sqlx::sqlite::SqlitePoolOptions::new()
+        .max_connections(5)
+        .connect_with(
+            sqlx::sqlite::SqliteConnectOptions::new()
+                .filename("database.sqlite")
+                .create_if_missing(true),
+        )
+        .await
+        .expect("Couldn't connect to database");
 
+  
+
+    let bot = Bot {
+        database,
+    };
     let mut client = Client::builder(&token)
         .framework(framework)
         .event_handler(Handler)
