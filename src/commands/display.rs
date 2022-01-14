@@ -1,9 +1,9 @@
 use serenity::framework::standard::{macros::command, Args, CommandResult};
 use serenity::model::prelude::*;
 use serenity::prelude::*;
-use serenity::model::Permissions;
 
-struct Handler;
+
+
 
 #[command]
 pub async fn display(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
