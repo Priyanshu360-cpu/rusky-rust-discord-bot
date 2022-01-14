@@ -7,8 +7,14 @@ struct Handler;
 
 #[command]
 pub async fn display(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-
-    msg.channel_id.send_message(ctx, |m| m.embed(|e| e.title("User Avatar").description(&msg.author).colour(0xff0000).image(&msg.author.face()))).await?;
+let member:User;
+if args.is_empty(){
+    member=msg.author.id.to_user(&ctx).await.unwrap();
+}
+else{
+    member = args.single::<id::UserId>().unwrap().to_user(&ctx).await.unwrap();
+}
+    msg.channel_id.send_message(ctx, |m| m.embed(|e| e.title("User Avatar").description("Avatar below").colour(0xff0000).image(member.face()))).await?;
 
     Ok(())
 }
