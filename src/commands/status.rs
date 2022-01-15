@@ -9,7 +9,6 @@ pub async fn status(ctx: &Context, msg: &Message) -> CommandResult {
     if let Some(act) = msg.content.strip_prefix("~status"){
     let act=act.trim();
     let activity = Activity::playing(act);
-    
         let status = OnlineStatus::Idle;
         ctx.set_presence(Some(activity), status).await;
         msg.channel_id.say(&ctx.http, format!("Set Status to {}",act)).await?;
