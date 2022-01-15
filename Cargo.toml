@@ -22,11 +22,8 @@ version = "0.10"
 features = ["cache", "framework", "standard_framework", "rustls_backend"]
 
 [dependencies.songbird]
-#version = "0.2"
-git = "https://github.com/serenity-rs/songbird"
-branch = "next"
-default-features = false
-features = ["serenity-rustls", "gateway"]
+version = "0.2.1"
+
 
 [dependencies.lavalink-rs]
 git = "https://gitlab.com/vicky5124/lavalink-rs"
