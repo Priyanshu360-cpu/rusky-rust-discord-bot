@@ -81,7 +81,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         },
         Err(why) => panic!("Could not access application info: {:?}", why),
     };
-
     let framework =
         StandardFramework::new().configure(|c| c.owners(owners).prefix("~")).group(&GENERAL_GROUP);
         let database = sqlx::sqlite::SqlitePoolOptions::new()
@@ -94,8 +93,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await
         .expect("Couldn't connect to database");
         sqlx::migrate!("./migrations").run(&database).await.expect("Couldn't run database migrations");
-  
-
     let bot = Bot {
         database,
     };
@@ -103,11 +100,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Ok(info) => info.id,
         Err(why) => panic!("Could not access application info: {:?}", why),
     };
-
-
-
-
-
     let mut client = Client::builder(&token)
         .framework(framework)
         .event_handler(Handler)
@@ -115,8 +107,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await
         .expect("Err creating client"); 
         client.start().await.expect("err");
-
-
     {
         let mut data = client.data.write().await;
         data.insert::<ShardManagerContainer>(client.shard_manager.clone());
