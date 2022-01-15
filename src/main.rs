@@ -2,7 +2,7 @@ mod commands;
 
 use std::{collections::HashSet, env, sync::Arc};
 
-use commands::{math::*, meta::*, owner::*,reply::*,display::*,table::*,status::*,chatbot::*,join::*};
+use commands::{math::*, meta::*, owner::*,reply::*,display::*,table::*,status::*,chatbot::*,join::*,play::*,leave::*};
 use serenity::{
     async_trait,
     client::bridge::gateway::ShardManager,
@@ -54,11 +54,11 @@ impl LavalinkEventHandler for LavalinkHandler {
 }
 
 #[group]
-#[commands(math, ping, quit, reply, display, table,status,chatbot,join)]
+#[commands(math, ping, quit, reply, display, table,status,chatbot,join,play,leave)]
 struct General;
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     dotenv::dotenv().expect("Failed to load .env file");
 
@@ -107,12 +107,13 @@ async fn main() {
         env::var("LAVALINK_PASSWORD").unwrap_or_else(|_| "youshallnotpass".to_string()),
     )
     .build(LavalinkHandler)
-    .await;
+    .await?;
 
 
     let mut client = Client::builder(&token)
         .framework(framework)
         .event_handler(Handler)
+        .register_songbird()
         .await
         .expect("Err creating client"); 
         client.start().await.expect("err");
@@ -133,4 +134,5 @@ async fn main() {
     if let Err(why) = client.start().await {
         error!("Client error: {:?}", why);
     }
+    Ok(())
 }
