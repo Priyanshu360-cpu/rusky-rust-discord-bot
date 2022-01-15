@@ -1,7 +1,7 @@
 # Rusky
 To start off the bot use the command:-
 ```
-Cargo run
+cargo run
 ```
 
 # Features
