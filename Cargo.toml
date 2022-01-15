@@ -18,6 +18,7 @@ version = "1.0"
 features = ["macros", "signal", "rt-multi-thread"]
 
 [dependencies.serenity]
+version = "0.10"
 features = ["cache", "framework", "standard_framework", "rustls_backend"]
 
 [dependencies.songbird]
