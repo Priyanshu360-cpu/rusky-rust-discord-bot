@@ -12,7 +12,7 @@ use serenity::{
     prelude::*,
 };
 use tracing::{error, info};
-use sqlx::postgres::PgPoolOptions;
+
 use lavalink_rs::{gateway::*, model::*, LavalinkClient};
 use songbird::SerenityInit;
 struct Bot {
