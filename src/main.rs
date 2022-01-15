@@ -5,7 +5,7 @@ use std::{collections::HashSet, env, sync::Arc};
 use commands::{math::*, meta::*, owner::*,reply::*,display::*,table::*,status::*,chatbot::*,join::*,play::*,leave::*};
 use serenity::{
     async_trait,
-    client::bridge::gateway::ShardManager,
+    client::{bridge::gateway::ShardManager,Client},
     framework::{standard::macros::group, StandardFramework},
     http::Http,
     model::{event::ResumedEvent, gateway::Ready},
@@ -19,13 +19,16 @@ struct Bot {
     database: sqlx::SqlitePool,
 }
 pub struct ShardManagerContainer;
+impl TypeMapKey for Lavalink {
+    type Value = LavalinkClient;
+}
 
 impl TypeMapKey for ShardManagerContainer {
     type Value = Arc<Mutex<ShardManager>>;
 }
 struct LavalinkHandler;
 struct Handler;
-
+struct Lavalink;
 #[async_trait]
 impl EventHandler for Handler {
     async fn ready(&self,ctx: Context, ready: Ready) {
@@ -101,13 +104,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Err(why) => panic!("Could not access application info: {:?}", why),
     };
 
-    let lava_client = LavalinkClient::builder(bot_id.0)
-    .set_host("localhost:2333")
-    .set_password(
-        env::var("LAVALINK_PASSWORD").unwrap_or_else(|_| "youshallnotpass".to_string()),
-    )
-    .build(LavalinkHandler)
-    .await?;
+
+
 
 
     let mut client = Client::builder(&token)
@@ -123,7 +121,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mut data = client.data.write().await;
         data.insert::<ShardManagerContainer>(client.shard_manager.clone());
     }
-
+    let lava_client = LavalinkClient::builder(bot_id.0)
+    .set_host("localhost:2333")
+    .set_password(
+        env::var("LAVALINK_PASSWORD").unwrap_or_else(|_| "youshallnotpass".to_string()),
+    )
+    .build(LavalinkHandler)
+    .await?;
+    {
+        let mut data = client.data.write().await;
+        data.insert::<Lavalink>(lava_client);
+    }
     let shard_manager = client.shard_manager.clone();
 
     tokio::spawn(async move {
