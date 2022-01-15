@@ -30,3 +30,4 @@ cargo run
 
 **Bot Made with ❤️ by Priyanshu**
 
+*Star the Project if you liked it ⭐*
