@@ -2,7 +2,7 @@ mod commands;
 
 use std::{collections::HashSet, env, sync::Arc};
 
-use commands::{math::*, meta::*, owner::*,reply::*,display::*,table::*,status::*,chatbot::*};
+use commands::{math::*, meta::*, owner::*,reply::*,display::*,table::*,status::*,chatbot::*,join::*};
 use serenity::{
     async_trait,
     client::bridge::gateway::ShardManager,
@@ -54,7 +54,7 @@ impl LavalinkEventHandler for LavalinkHandler {
 }
 
 #[group]
-#[commands(math, ping, quit, reply, display, table,status,chatbot)]
+#[commands(math, ping, quit, reply, display, table,status,chatbot,join)]
 struct General;
 
 #[tokio::main]
