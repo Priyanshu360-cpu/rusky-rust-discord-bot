@@ -6,3 +6,4 @@ pub mod display;
 pub mod table;
 pub mod status;
 pub mod chatbot;
+pub mod join;
