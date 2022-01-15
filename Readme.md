@@ -4,12 +4,12 @@ To start off the bot use the command:-
 Cargo run
 ```
 
-Features;-
+# Features
 ```
 Chatbot
 Music With Lavalink-rs 
 Songbird Implenementation
-command handler
+Command handler
 Sql Working database
 More commands(see in src)
 ```
