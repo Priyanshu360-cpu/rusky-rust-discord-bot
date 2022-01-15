@@ -7,3 +7,5 @@ pub mod table;
 pub mod status;
 pub mod chatbot;
 pub mod join;
+pub mod play;
+pub mod leave;
