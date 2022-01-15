@@ -1,6 +1,8 @@
 use songbird::SerenityInit;
 use serenity::client::Context;
-
+use serenity::client::{
+    Context as Dup
+};
 use serenity::{
     async_trait,
     client::{Client, EventHandler},
@@ -21,7 +23,7 @@ fn check_msg(result: SerenityResult<Message>) {
 }
 #[command]
 #[only_in(guilds)]
-async fn join(ctx: &Context, msg: &Message) -> CommandResult {
+async fn join(ctx: &Dup, msg: &Message) -> CommandResult {
     let guild = msg.guild(&ctx.cache).await.unwrap();
     let guild_id = guild.id;
 
@@ -37,7 +39,8 @@ async fn join(ctx: &Context, msg: &Message) -> CommandResult {
             return Ok(());
         }
     };
-
+   
+ 
    
 
     Ok(())
