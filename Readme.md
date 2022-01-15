@@ -6,7 +6,7 @@ Cargo run
 
 # Features
 ```
-Chatbot
+•Chatbot
 •Music With Lavalink-rs 
 •Songbird Implenementation
 •Command handler
