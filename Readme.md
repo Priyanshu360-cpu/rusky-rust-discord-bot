@@ -5,6 +5,7 @@ cargo run
 ```
 
 # Features
+
 ```
 •Chatbot
 •Music With Lavalink-rs 
