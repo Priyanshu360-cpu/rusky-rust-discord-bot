@@ -1,19 +1,15 @@
-use songbird::SerenityInit;
+
 use serenity::client::Context;
-use serenity::client::{
-    Context as Dup
-};
+
+
 use serenity::{
-    async_trait,
-    client::{Client, EventHandler},
     framework::{
-        StandardFramework,
         standard::{
-            Args, CommandResult,
-            macros::{command, group},
+             CommandResult,
+            macros::{command},
         },
     },
-    model::{channel::Message, gateway::Ready},
+    model::{channel::Message},
     Result as SerenityResult,
 };
 fn check_msg(result: SerenityResult<Message>) {
@@ -23,7 +19,7 @@ fn check_msg(result: SerenityResult<Message>) {
 }
 #[command]
 #[only_in(guilds)]
-async fn join(ctx: &Dup, msg: &Message) -> CommandResult {
+async fn join(ctx: &Context, msg: &Message) -> CommandResult {
     let guild = msg.guild(&ctx.cache).await.unwrap();
     let guild_id = guild.id;
 
@@ -40,7 +36,10 @@ async fn join(ctx: &Dup, msg: &Message) -> CommandResult {
         }
     };
    
- 
+    let manager = songbird::get(ctx).await
+    .expect("Songbird Voice client placed in at initialisation.").clone();
+
+let _handler = manager.join(guild_id, connect_to).await;
    
 
     Ok(())
