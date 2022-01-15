@@ -13,6 +13,8 @@ use serenity::{
 };
 use tracing::{error, info};
 use sqlx::postgres::PgPoolOptions;
+use lavalink_rs::{gateway::*, model::*, LavalinkClient};
+use songbird::SerenityInit;
 struct Bot {
     database: sqlx::SqlitePool,
 }
@@ -21,7 +23,7 @@ pub struct ShardManagerContainer;
 impl TypeMapKey for ShardManagerContainer {
     type Value = Arc<Mutex<ShardManager>>;
 }
-
+struct LavalinkHandler;
 struct Handler;
 
 #[async_trait]
@@ -40,6 +42,15 @@ impl EventHandler for Handler {
         info!("Resumed");
     }
 
+}
+#[async_trait]
+impl LavalinkEventHandler for LavalinkHandler {
+    async fn track_start(&self, _client: LavalinkClient, event: TrackStart) {
+        info!("Track started!\nGuild: {}", event.guild_id);
+    }
+    async fn track_finish(&self, _client: LavalinkClient, event: TrackFinish) {
+        info!("Track finished!\nGuild: {}", event.guild_id);
+    }
 }
 
 #[group]
@@ -85,7 +96,20 @@ async fn main() {
     let bot = Bot {
         database,
     };
-    
+    let bot_id = match http.get_current_application_info().await {
+        Ok(info) => info.id,
+        Err(why) => panic!("Could not access application info: {:?}", why),
+    };
+
+    let lava_client = LavalinkClient::builder(bot_id.0)
+    .set_host("localhost:2333")
+    .set_password(
+        env::var("LAVALINK_PASSWORD").unwrap_or_else(|_| "youshallnotpass".to_string()),
+    )
+    .build(LavalinkHandler)
+    .await;
+
+
     let mut client = Client::builder(&token)
         .framework(framework)
         .event_handler(Handler)
